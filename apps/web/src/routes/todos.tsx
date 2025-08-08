@@ -1,3 +1,7 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { Loader2, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,12 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { createFileRoute } from "@tanstack/react-router";
-import { Loader2, Trash2 } from "lucide-react";
-import { useState } from "react";
-
 import { orpc } from "@/utils/orpc";
-import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/todos")({
   component: TodosRoute,
@@ -21,7 +20,6 @@ export const Route = createFileRoute("/todos")({
 
 function TodosRoute() {
   const [newTodoText, setNewTodoText] = useState("");
-
 
   const todos = useQuery(orpc.todo.getAll.queryOptions());
   const createMutation = useMutation(
@@ -34,12 +32,16 @@ function TodosRoute() {
   );
   const toggleMutation = useMutation(
     orpc.todo.toggle.mutationOptions({
-      onSuccess: () => { todos.refetch() },
+      onSuccess: () => {
+        todos.refetch();
+      },
     }),
   );
   const deleteMutation = useMutation(
     orpc.todo.delete.mutationOptions({
-      onSuccess: () => { todos.refetch() },
+      onSuccess: () => {
+        todos.refetch();
+      },
     }),
   );
 

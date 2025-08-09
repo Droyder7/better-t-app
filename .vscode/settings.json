@@ -16,5 +16,17 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit"
   },
+  "files.readonlyInclude": {
+    "**/routeTree.gen.ts": true,
+    "**/generated/**": true
+  },
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true,
+    "**/generated/**": true
+  },
+  "search.exclude": {
+    "**/routeTree.gen.ts": true,
+    "**/generated/**": true
+  },
   "cSpell.words": ["orpc"]
 }

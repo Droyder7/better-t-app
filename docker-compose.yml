@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres
+    container_name: better-t-app-postgres
+    environment:
+      POSTGRES_DB: better-t-app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - better-t-app_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - better-t-app-network
+
+  drizzle-gate:
+    image: ghcr.io/drizzle-team/gateway:latest
+    container_name: drizzle-gate
+    restart: always
+    ports:
+      - '4983:4983'
+    environment:
+      PORT: 4983
+      STORE_PATH: ./app
+      MASTERPASS: your_master_password
+    volumes:
+      - drizzle-gateway:/app
+    networks:
+      - better-t-app-network
+
+volumes:
+  better-t-app_postgres_data:
+  drizzle-gateway:
+
+networks:
+  better-t-app-network:
+    driver: bridge
